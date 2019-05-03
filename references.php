@@ -1,6 +1,6 @@
 <?php
-include ('car.php');
-include ('view.php');
+include ('model\car.php');
+include ('view\view.php');
 include ('dao\enum.php');
 include ('dao\IMyDAO.php');
 include ('dao\MongoDBDAO.php');
