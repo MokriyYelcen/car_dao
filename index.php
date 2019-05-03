@@ -1,6 +1,6 @@
 <?php
 require ('references.php');
-$dao= DAOFactory::get_obj_DAO(DAOenum::MySQLDAO);
+$dao= DAOFactory::get_obj_DAO(DAOenum::MongoDBDAO);
 $errors=array();
 
 	if('POST'==$_SERVER['REQUEST_METHOD']){
