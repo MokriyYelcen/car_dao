@@ -8,11 +8,11 @@ class MySQLDAO implements IMyDao{
 		$this->connection= mysqli_connect('127.0.0.1','root','','test_db') ;
 	}
 	
-	public  function _add(Car $item){
+	public  function _add($item){
 		$errors=array();
 		if($this->connection){
-			$manuf=$item->manufacturer;
-			$body_type=$item->body_type;
+			$manuf=$item['manufacturer'];
+			$body_type=$item['body_type'];
 			if(!is_numeric($manuf)&& !is_numeric($body_type)){
 				if($tmp=mysqli_query($this->connection,"SELECT `id_manufacturer_car` FROM `manufacturer_car` WHERE `name` LIKE'%$manuf%'")){
 					$row=mysqli_fetch_assoc($tmp);
@@ -39,9 +39,9 @@ class MySQLDAO implements IMyDao{
 																		   `price_day`,
 																		   `id_manufacturer`,
 																		   `id_body_type`) VALUES".'('.
-																								"'".$item->model ."',".
-																								"'".$item->year ."',".
-																								"'".$item->price_day ."',".
+																								"'".$item['model']."',".
+																								"'".$item['year']."',".
+																								"'".$item['price_day'] ."',".
 																								"'".$id_manufacturer ."',".
 																								"'".$id_body_type ."')"
 																															)){
@@ -81,7 +81,7 @@ class MySQLDAO implements IMyDao{
 		if($searched==null){
 			if($this->connection){
 				if($res=mysqli_query($this->connection,"
-														SELECT `id_car`,`model`,`year`,`price_day`,`manufacturer_car`.`name` as 'manufacturer',`body_type`.`name` as'body_type'
+														SELECT `id_car` as '_id',`model`,`year`,`price_day`,`manufacturer_car`.`name` as 'manufacturer',`body_type`.`name` as'body_type'
 														FROM `car` 
 														INNER JOIN `manufacturer_car`ON(`car`.`id_manufacturer`=`manufacturer_car`.`id_manufacturer_car`)
 														INNER JOIN `body_type` ON(`car`.`id_body_type`=`body_type`.`id_body_type`)
@@ -90,13 +90,13 @@ class MySQLDAO implements IMyDao{
 				{
 					$arr=array();
 					while($row=mysqli_fetch_assoc($res)){
-						$arr[]=new Car(
-										 $row['model'],
-										 $row['year'],
-										 $row['price_day'],
-										 $row['manufacturer'],
-										 $row['body_type'],
-										 $row['id_car']);
+						$arr[]=array(
+										 'model'=>$row['model'],
+										 'year'=>$row['year'],
+										 'price_day'=>$row['price_day'],
+										 'manufacturer'=>$row['manufacturer'],
+										 'body_type'=>$row['body_type'],
+										 '_id'=>$row['_id']);
 					}
 					
 					return $arr;

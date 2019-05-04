@@ -9,16 +9,16 @@ class MongoDAO implements IMyDao{
 		$this->client=new MongoClient();
 		$this->db=$this->client->car;
 	}
-	public  function _add(Car $item){
+	public  function _add($item){
 		
 		$errors=array();
-		//$query= new Query([],);
+	
 		$doc=array(
-					 "model" =>$item->model,
-					 "year" =>$item->year,
-					 "price_day" =>$item->price_day*1,
-					 "manufacturer" =>$item->manufacturer,
-					 "body_type" =>$item->body_type,
+					 "model" =>$item['model'],
+					 "year" =>$item['year'],
+					 "price_day" =>$item['price_day']*1,
+					 "manufacturer" =>$item['manufacturer'],
+					 "body_type" =>$item['body_type'],
 					 );
 		if($res=$this->db->car->insert($doc)){
 			
@@ -47,13 +47,13 @@ class MongoDAO implements IMyDao{
 				$arr=array();
 				foreach($res as $doc ){
 					
-					$arr[]=new Car(
-										 $doc['model'],
-										 $doc['year'],
-										 $doc['price_day'],
-										 $doc['manufacturer'],
-										 $doc['body_type'],
-										 $doc['_id']
+					$arr[]=array(
+										 'model'=>$doc['model'],
+										 'year'=>$doc['year'],
+										 'price_day'=>$doc['price_day'],
+										 'manufacturer'=>$doc['manufacturer'],
+										 'body_type'=>$doc['body_type'],
+										 '_id'=>$doc['_id']
 								);
 
 				}

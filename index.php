@@ -1,51 +1,63 @@
 <?php
 require ('references.php');
-$dao= DAOFactory::get_obj_DAO(DAOenum::MySQLDAO);
-$errors=array();
-
-	if('POST'==$_SERVER['REQUEST_METHOD']){
-		
-		//////////////////////////////////////////////////////////////////////////////////////////////
+$dao= DAOFactory::get_obj_DAO(DAOenum::MongoDBDAO);
+	
+	switch (TableView::table_case()){
 		
 		
-		switch (table_case()){
-			case'del':
-			
-			
-			if(delete_row_by_id($dao)){//в этой функции запрос на удаление
-				 show_car_table($dao);
-			}else{
-				 show_errors();
-			}
-			
-			break;
-			case'add':
-			
-			if($input=validate_input()){
-				//print'validation went well </br>';
-				 if(add_car($dao,$input)){
-					show_car_table($dao);
-				}else{
-					show_errors();
-				}
-				
-				
-			}else{print'validation didnt go well </br>';show_errors();}
-			
-			break;
-			case'update':
-
-			if(update_price($dao)){
-				show_car_table($dao);
+		case'del':
+			$id=$_POST['button'][0];
+			if (count($errors=Car::delete_row_by_id($id,$dao))==0){
+				$table= new Table($dao);
+				$view= new TableView($table);
+				$view->render();
 			}
 			else{
-				show_errors();
+				TableView::show_errors($errors);
 			}
-		}
+		break;
+				
+				
+		case'add':
+			
+			$new = new Car(
+							htmlspecialchars($_POST['model']),
+							htmlspecialchars($_POST['year']),
+							htmlspecialchars($_POST['price_day']),
+							htmlspecialchars($_POST['manufacturer'][0]),
+							htmlspecialchars($_POST['body_type'][0])
+							);
+			if (count($errors=$new->add_car($dao))==0){
+				$table= new Table($dao);
+				$view= new TableView($table);
+				$view->render();
+			}
+			else{
+				TableView::show_errors($errors);
+			}
+		break;
 		
-	}else{
-		show_car_table($dao);
-	}
+		
+		case'update':
+			$difference=$_POST['difference'];
+			if (count($errors=Car::update_price($difference,$dao))==0){
+				$table= new Table($dao);
+				$view= new TableView($table);
+				$view->render();
+			}
+			else{
+				TableView::show_errors($errors);
+			}
+		break;
+		
+		case'':
+			$table= new Table($dao);
+			$view= new TableView($table);
+			$view->render();
+		break;
+		}
+
+
 	
 	
 	
