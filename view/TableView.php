@@ -1,4 +1,5 @@
 <?php
+
 function show_car_table($dao){
 	
 	//формируем селект для вставки производителя
@@ -67,7 +68,7 @@ function show_car_table($dao){
 	"</tr>";
 	print"</table>".'</form>';
 }
-
+///car model
 function delete_row_by_id($dao){
 	$id=$_POST['button'][0];
 	$errors=$dao->_delete($id);
@@ -81,7 +82,7 @@ function delete_row_by_id($dao){
 		return false;
 	}
 }
-
+//car model
 function add_car($dao,$valid_new_car){
 	
 		$errors=$dao->_add($valid_new_car);
@@ -156,7 +157,7 @@ function validate_input(){
 		return false;
 	}
 }
-
+//table model, but should be a car model method if we had parametric query
 function update_price($dao){
 	$difference=$_POST['difference'];
 	$errors=$dao->_change_price($difference);

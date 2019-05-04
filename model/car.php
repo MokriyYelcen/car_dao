@@ -47,6 +47,15 @@ class Car{
 	}
 
 	
+	function delete_row_by_id($id,$dao){
+	$errors=$dao->_delete($id);
+	return $errors;
+	}
 	
+	function add_car($valid_new_car,$dao){
+	
+		$errors=$dao->_add($valid_new_car);
+		return $errors;
+	}
 }
 ?>
