@@ -1,6 +1,6 @@
 <?php
 require ('references.php');
-$dao= DAOFactory::get_obj_DAO(DAOenum::MongoDBDAO);
+$dao= DAOFactory::get_obj_DAO(DAOenum::MySQLDAO);
 $errors=array();
 
 	if('POST'==$_SERVER['REQUEST_METHOD']){
@@ -8,7 +8,7 @@ $errors=array();
 		//////////////////////////////////////////////////////////////////////////////////////////////
 		
 		
-		switch (control()){
+		switch (table_case()){
 			case'del':
 			
 			

@@ -57,6 +57,14 @@ function show_car_table($dao){
 	"<td>"."</td>".
 	"<td>"."<input type=\"submit\" name=\"update\" value=\"Change price\" style=\"font-size:30px;\" >"."</td>".
 	"</tr>";
+	print "<tr>".
+	"<td>"."</td>".
+	"<td>"."</td>".
+	"<td>"."</td>".
+	"<td>"."</td>".
+	"<td>"."</td>".
+	"<td>"."<a href=\"DataMigrationController.php\">Migration</a>"."</td>".
+	"</tr>";
 	print"</table>".'</form>';
 }
 
@@ -169,7 +177,7 @@ function show_errors(){
 	}
 }
 
-function control(){
+function table_case(){
 	if($_POST['button'][0]){return 'del';}
 	if($_POST['add']){return 'add';}
 	if($_POST['update']){return 'update';}

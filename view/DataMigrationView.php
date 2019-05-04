@@ -1,5 +1,5 @@
-<?
-include ('migration.php');
+<?php
+function show_migration_form() {
 $action=$_SERVER['PHP_SELF'];
 $form="<form name=\"form\" method=\"post\" action=\"$action\" align=\"center\" id=\"#help\">";
 $form.="<div id=\"button\">"."<input type=\"submit\" name=\"to_mysql\" value=\"migrate to MySql\" id=\"iinput\" >"."</div>";
@@ -35,16 +35,20 @@ $html='<!DOCTYPE html>
   </div>
  </body> 
 </html>';
-
-if('POST'==$_SERVER['REQUEST_METHOD']){
-	switch(controll()){
-		case 'to_mysql':Migration::to_mysql();break;
-		case 'to_mongo':Migration::to_mongo();break;
-		case '':print"Something went wrong";break;
-	}
-}
 print $html;
-function controll(){
+}
+
+function show_stat($errors){
+	$i=0;
+	print'Results: '.'</br>';
+	foreach($errors as $place=>$error){
+		$i++;
+		print $i.') '.'Action '.$place.' , res: '.$error.'</br>';
+	}
+	print "<a href=\"index.php\">Back to table</a>";
+}
+
+function migration_case(){
 	
 	if($_POST['to_mysql']){return 'to_mysql';}
 	if($_POST['to_mongo']){return 'to_mongo';}

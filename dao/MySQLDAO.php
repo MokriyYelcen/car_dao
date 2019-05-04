@@ -172,6 +172,32 @@ class MySQLDAO implements IMyDao{
 		}
 		return $errors;
 	}
+	public function _clear_db(){
+		$errors=array();
+		if($this->connection){
+			$delcar=mysqli_query($this->connection,"DELETE FROM `car` WHERE `id_car` IS NOT NULL");
+			
+			if($delcar){
+				$delman=mysqli_query($this->connection,"DELETE FROM `manufacturer_car` WHERE `name` IS NOT NULL");
+				$delbt=mysqli_query($this->connection,"DELETE FROM `body_type` WHERE `name` IS NOT NULL");
+				if($delman&&$delbt){
+				
+				}
+				else{
+					$errors['delete']='can`t delete all from body_type manufecturers';
+				}
+			}
+			else{
+					$errors['delete']='can`t delete all from car';
+				}
+			
+		}
+		else{
+			$errors['connection']='can`t connect mysql';
+				
+		}
+		return $errors;
+	}
 	public  function _add_manufacturer($new){
 		$errors=array();
 		if($this->connection){
@@ -186,6 +212,31 @@ class MySQLDAO implements IMyDao{
 			$errors['connection']='can`t connect mysql';
 		}
 		return $errors;
+	}
+	public  function _add_body_type($new){
+		$errors=array();
+		if($this->connection){
+			if($res=mysqli_query($this->connection,"INSERT INTO`body_type`(`name`) VALUES ('$new')")){
+				
+			}
+			else{
+				$errors['insert']='can`t insert body_type';
+			}
+		}
+		else{
+			$errors['connection']='can`t connect mysql';
+		}
+		return $errors;
+	}
+	public  function _delete_test(){
+		$errors=array();
+		if($res=mysqli_query($this->connection,"DELETE FROM `manufacturer_car` WHERE `name` = 'test'")){
+			
+		}
+		else{
+			$errors['connection']='can`t connect MongoDB(delete)';
+		}
+		print_r ($errors);
 	}
 }
 ?>

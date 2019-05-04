@@ -104,6 +104,22 @@ class MongoDAO implements IMyDao{
 		}
 		return $errors;
 	}
+	public function _clear_db(){
+		$errors=array();
+		$delman=$this->db->manufacturer->remove(array(), array("justOne" => false));
+		$delbt=$this->db->body_type->remove(array(), array("justOne" => false));
+		if($delman&&$delbt){
+			if($res=$this->db->car->remove(array(), array("justOne" => false))){
+
+			}
+			else{
+				$errors['connection']='can`t connect MongoDB(delete all from car)';
+			}
+		}else{
+			$errors['connection']='can`t connect MongoDB(delete all from body_type, manufacturers)';
+		}
+		return $errors;
+	}
 	public  function _add_manufacturer($new){
 		$errors=array();
 		if($res=$this->db->manufacturer->insert(array('manufacturer'=>$new))){
@@ -111,6 +127,16 @@ class MongoDAO implements IMyDao{
 		}
 		else{
 			$errors['connection']='can`t connect MongoDB(insert_manufacturer)';
+		}
+		return $errors;
+	}
+	public  function _add_body_type($new){
+		$errors=array();
+		if($res=$this->db->body_type->insert(array('body_type'=>$new))){
+			
+		}
+		else{
+			$errors['connection']='can`t connect MongoDB(insert_body_type)';
 		}
 		return $errors;
 	}

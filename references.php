@@ -1,6 +1,8 @@
 <?php
 include ('model\car.php');
-include ('view\view.php');
+include ('model\DataMigration.php');
+include ('view\TableView.php');
+include ('view\DataMigrationView.php');
 include ('dao\enum.php');
 include ('dao\IMyDAO.php');
 include ('dao\MongoDBDAO.php');
