@@ -19,7 +19,7 @@ $dao= DAOFactory::get_obj_DAO(DAOenum::MongoDBDAO);
 				
 				
 		case'add':
-			
+			// для создания экземпляра машины вызываем конструктор модли
 			$new = new Car(
 							htmlspecialchars($_POST['model']),
 							htmlspecialchars($_POST['year']),
@@ -27,6 +27,7 @@ $dao= DAOFactory::get_obj_DAO(DAOenum::MongoDBDAO);
 							htmlspecialchars($_POST['manufacturer'][0]),
 							htmlspecialchars($_POST['body_type'][0])
 							);
+			//
 			if (count($errors=$new->add_car($dao))==0){
 				$table= new Table($dao);
 				$view= new TableView($table);

@@ -1,5 +1,5 @@
 <?php
-include ('model\car.php');
+include ('model\Car.php');
 include ('model\Table.php');
 include ('model\DataMigration.php');
 include ('view\TableView.php');
