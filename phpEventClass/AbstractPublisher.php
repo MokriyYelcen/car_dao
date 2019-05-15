@@ -14,7 +14,7 @@ abstract class Publisher{
 	
 	public function __cal($name,$args){
 		if(in_array($name,$this->Events)){
-			$this->fireEvent($name,$args);
+			$this->executeEvent($name,$args);
 		}
 		else{
 			throw new Exception("No such event or bad arguments given");
@@ -58,8 +58,8 @@ abstract class Publisher{
 }
 
 	class EventArgument{
-		protected $caller;
-		protected $argument;
+		public $caller;
+		public $argument;
 		
 		public function __construct($caller,$argument =null){
 			$this->caller=$caller;

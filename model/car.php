@@ -35,35 +35,34 @@ class Car{
 		
 	}
 
-	
-	public static function delete_row_by_id($id,$dao){
+	//Хуки - методы которые мы навесим на таблицу, класс Table будет их дергать по наступлению события
+	public function delete_row_by_id(EventArgument $arg){
+	$dao=$GLOBALS['dao'];
+	$id=$arg->argument;
 	$errors=$dao->_delete($id);
-	return $errors;
 	}
 	
-	public static function update_price($difference,$dao){
-		$errors=array();
+	public function update_price(EventArgument $arg){
+		$dao=$GLOBALS['dao'];
+		$difference=$arg->argument;
 		if(is_numeric($difference)){
 			$errors = $dao->_change_price($difference);
 		}
-		else{
-			$errors['difference']='is not an integer';
-		}
-		
-	
-	return $errors;
+
 	}
 	
-	public function add_car($dao){
-		
+	public function add_car(EventArgument $arg){
+		$dao=$GLOBALS['dao'];
+		$car=$arg->argument;
 		$errors=$this->validate();
 		if(count($errors)==0){
-			$errors=$dao->_add($this->get_arr());
+			$errors=$dao->_add($car->get_arr());
 		}
 
-		return $errors;
+		
 	}
 	
+	//Валидатор вернет 
 	public function validate(){
 		
 		$errors=[];
