@@ -50,7 +50,7 @@ class Table extends Publisher{
 	}
 	public function add_car_to_table($car){
 		//добавляем в таблицу
-		$this->arr_car[]=$car;
+		//$this->arr_car[]=$car;
 		//запускаем событие
 		$this->executeEvent('onAdd',$car);
 	}
