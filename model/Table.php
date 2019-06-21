@@ -10,6 +10,7 @@ class Table extends Publisher{
 		$dao=$GLOBALS['dao'];
 		$this->arr_man=$dao->_available_manufacturer();
 		$this->arr_bt=$dao->_available_body_type();
+		$this->arr_car=[];
 		if($params==null){
 			$content=$dao->_search();
 			foreach($content as $row){
@@ -23,10 +24,14 @@ class Table extends Publisher{
 									);
 				// Подписываем каждую следующую машину на события таблицы
 				$reflection_car=new ReflectionClass($next);
-				$this->onDelete= $reflection_car->getMethod('delete_row_by_id')->getClosure($next);
-				$this->onUpdate_price= $reflection_car->getMethod('update_price')->getClosure($next);
-				$this->onAdd= $reflection_car->getMethod('add_car')->getClosure($next);
-				$this->arr_car[$next->id]=$next;
+				$this->hookOnEvent('onDelete',$reflection_car->getMethod('delete_row_by_id')->getClosure($next));
+				$this->hookOnEvent('onUpdate_price',$reflection_car->getMethod('update_price')->getClosure($next));
+				$this->hookOnEvent('onAdd',$reflection_car->getMethod('add_car')->getClosure($next));
+				//подписываем перегружая метод set
+				//$this->onDelete= $reflection_car->getMethod('delete_row_by_id')->getClosure($next);
+				//$this->onUpdate_price= $reflection_car->getMethod('update_price')->getClosure($next);
+				//$this->onAdd= $reflection_car->getMethod('add_car')->getClosure($next);
+				$this->arr_car[]=$next;
 			}
 		}
 		else{
@@ -36,7 +41,12 @@ class Table extends Publisher{
 	
 	public function delete_car_from_table($id){
 		//удаляем из таблицы
-		unset($this->arr_car[$id]);
+		foreach($this->arr_car as $num=>$car){
+			if($car->id==$id){
+				unset($this->arr_car[$num]);
+			}
+		}
+		
 		//запускаем событие
 		$this->executeEvent('onDelete',$id);
 	}

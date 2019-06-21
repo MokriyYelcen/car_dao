@@ -2,7 +2,7 @@
 abstract class Publisher{
 	protected $Observers=array();
 	protected $Events=array();
-	
+	/*
 	public function __set($prop,$closure){
 		if(in_array($prop,$this->Events)){
 			$this->hookOnEvent($prop,$closure);
@@ -20,7 +20,7 @@ abstract class Publisher{
 			throw new Exception("No such event or bad arguments given");
 		}
 	}
-	
+	*/
 	protected function hookOnEvent($event,$closure){
 		if(in_array($event,$this->Events)){
 
